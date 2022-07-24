@@ -36,7 +36,8 @@ Iterable<U8> serializeU16(U16 value, String description) sync* {
 
 /// Reads the next [U16] from the given [iterator], instead throwing a
 /// [StateError] including the given [description] should the given [iterator]
-/// not contain enough [U8]s to completely describe one.
+/// not contain enough [U8]s to completely describe one, or a [RangeError]
+/// including the given [description] should the iterator contain invalid [U8]s.
 U16 deserializeU16(Iterator<U8> iterator, String description) {
   primitiveScratch.setUint8(0, deserializeU8(iterator, description));
   primitiveScratch.setUint8(1, deserializeU8(iterator, description));

@@ -31,7 +31,8 @@ Iterable<U8> serializeU8(U8 value, String description) sync* {
 
 /// Reads the next [U8] from the given [iterator], instead throwing a
 /// [StateError] including the given [description] should the given [iterator]
-/// have no further items.
+/// have no further items, or a [RangeError] including the given [description]
+/// should the iterator contain invalid [U8]s.
 U8 deserializeU8(Iterator<U8> iterator, String description) {
   if (!iterator.moveNext()) {
     throw StateError("$description - Unexpected end of file.");

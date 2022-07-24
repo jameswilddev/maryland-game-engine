@@ -15,7 +15,8 @@ Iterable<U8> serializeF32(F32 value) sync* {
 
 /// Reads the next [F32] from the given [iterator], instead throwing a
 /// [StateError] including the given [description] should the given [iterator]
-/// not contain enough [U8]s to completely describe one.
+/// not contain enough [U8]s to completely describe one, or a [RangeError]
+/// including the given [description] should the iterator contain invalid [U8]s.
 F32 deserializeF32(Iterator<U8> iterator, String description) {
   primitiveScratch.setUint8(3, deserializeU8(iterator, description));
   primitiveScratch.setUint8(2, deserializeU8(iterator, description));
