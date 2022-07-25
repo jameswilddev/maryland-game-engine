@@ -25,7 +25,7 @@ class GameMetadata {
   }
 
   @override
-  bool operator == (other) => other is GameMetadata && name == other.name;
+  bool operator ==(other) => other is GameMetadata && name == other.name;
 
   @override
   int get hashCode => name.hashCode;
