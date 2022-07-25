@@ -221,7 +221,7 @@ void main() {
       });
     });
 
-    test("treats deserialized and generate entity IDs the same", () {
+    test("treats deserialized and generated entity IDs the same", () {
       final generated = EntityId.generate();
       final deserialized = EntityId.deserialize(generated.serialize().iterator, "Example Description");
 
