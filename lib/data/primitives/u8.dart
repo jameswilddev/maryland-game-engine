@@ -1,3 +1,5 @@
+import 'dart:async';
+
 /// An unsigned 8-bit integer.
 typedef U8 = int;
 
@@ -33,9 +35,9 @@ Iterable<U8> serializeU8(U8 value, String description) sync* {
 /// [StateError] including the given [description] should the given [iterator]
 /// have no further items, or a [RangeError] including the given [description]
 /// should the iterator contain invalid [U8]s.
-U8 deserializeU8(Iterator<U8> iterator, String description) {
-  if (!iterator.moveNext()) {
-    throw StateError("$description - Unexpected end of file.");
+Future<U8> deserializeU8(StreamIterator<U8> iterator, String description) async {
+  if (!await iterator.moveNext()) {
+    throw StateError("$description - Unexpected end of stream.");
   }
 
   U8 output = iterator.current;

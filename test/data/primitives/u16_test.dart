@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:maryland_game_engine/data/primitives/u16.dart';
 import 'package:maryland_game_engine/data/primitives/u8.dart';
@@ -81,53 +83,52 @@ void main() {
     test("throws the expected exception when the iterator ends immediately",
         () {
       expect(
-          () => deserializeU16(<U8>[].iterator, "Example Description"),
+          deserializeU16(StreamIterator(const Stream.empty()), "Example Description"),
           throwsA(predicate((e) =>
               e is StateError &&
-              e.message == "Example Description - Unexpected end of file.")));
+              e.message == "Example Description - Unexpected end of stream.")));
     });
 
     test("throws the expected exception when the iterator ends after one U8",
         () {
       expect(
-          () => deserializeU16(<U8>[0xce].iterator, "Example Description"),
+          deserializeU16(StreamIterator(Stream.fromIterable([0xce])), "Example Description"),
           throwsA(predicate((e) =>
               e is StateError &&
-              e.message == "Example Description - Unexpected end of file.")));
+              e.message == "Example Description - Unexpected end of stream.")));
     });
 
     test("throws the expected exception when the iterator includes invalid U8s",
         () {
       expect(
-          () => deserializeU16(<U8>[0xce, 300].iterator, "Example Description"),
+          deserializeU16(StreamIterator(Stream.fromIterable([0xce, 300])), "Example Description"),
           throwsA(predicate((e) =>
               e is RangeError &&
               e.message ==
                   "Example Description - Value is out of range for a U8 (greater than 255).")));
     });
 
-    test("returns the expected U16 when the iterable ends", () {
-      expect(deserializeU16([0xce, 0x80].iterator, "Example Description"),
+    test("returns the expected U16 when the iterable ends", () async {
+      expect(await deserializeU16(StreamIterator(Stream.fromIterable([0xce, 0x80])), "Example Description"),
           equals(52864));
     });
 
     group("when the iterable does not end", () {
-      Iterator<U8> iterator = <U8>[].iterator;
+      final iterator = StreamIterator(Stream.fromIterable([0xce, 0x80, 0x48, 0x07, 0xe5, 0x6e]));
       U16 output = 0;
 
-      setUpAll(() {
-        iterator = [0xce, 0x80, 0x48, 0x07, 0xe5, 0x6e].iterator;
-        output = deserializeU16(iterator, "Example Description");
+      setUpAll(() async {
+        output = await deserializeU16(iterator, "Example Description");
       });
 
       test("returns the expected U16", () {
         expect(output, equals(52864));
       });
 
-      test("leaves the remaining U8s un-iterated", () {
-        final remaining = <U8>[];
+      test("leaves the remaining U8s un-iterated", () async {
+        final remaining = [];
 
-        while (iterator.moveNext()) {
+        while (await iterator.moveNext()) {
           remaining.add(iterator.current);
         }
 

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:maryland_game_engine/data/primitives/u8.dart';
 
 /// A 32-bits-per-pixel [Color], including [red], [green] and [blue] intensities
@@ -44,11 +46,11 @@ class Color {
   /// [iterator] not contain enough [U8]s to fully describe one, or a
   /// [RangeError] including the given [description] should the iterator contain
   /// invalid [U8]s.
-  static Color deserialize(Iterator<U8> iterator, String description) {
-    final red = deserializeU8(iterator, "$description (red intensity)");
-    final green = deserializeU8(iterator, "$description (green intensity)");
-    final blue = deserializeU8(iterator, "$description (blue intensity)");
-    final opacity = deserializeU8(iterator, "$description (opacity)");
+  static Future<Color> deserialize(StreamIterator<U8> iterator, String description) async {
+    final red = await deserializeU8(iterator, "$description (red intensity)");
+    final green = await deserializeU8(iterator, "$description (green intensity)");
+    final blue = await deserializeU8(iterator, "$description (blue intensity)");
+    final opacity = await deserializeU8(iterator, "$description (opacity)");
 
     return Color(red, green, blue, opacity);
   }

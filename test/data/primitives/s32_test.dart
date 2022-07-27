@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:maryland_game_engine/data/primitives/s32.dart';
 import 'package:maryland_game_engine/data/primitives/u8.dart';
@@ -83,76 +85,75 @@ void main() {
     test("throws the expected exception when the iterator ends immediately",
         () {
       expect(
-          () => deserializeS32(<U8>[].iterator, "Example Description"),
+          deserializeS32(StreamIterator(const Stream.empty()), "Example Description"),
           throwsA(predicate((e) =>
               e is StateError &&
-              e.message == "Example Description - Unexpected end of file.")));
+              e.message == "Example Description - Unexpected end of stream.")));
     });
 
     test("throws the expected exception when the iterator ends after one U8",
         () {
       expect(
-          () => deserializeS32(<U8>[0xce].iterator, "Example Description"),
+          deserializeS32(StreamIterator(Stream.fromIterable([0xce])), "Example Description"),
           throwsA(predicate((e) =>
               e is StateError &&
-              e.message == "Example Description - Unexpected end of file.")));
+              e.message == "Example Description - Unexpected end of stream.")));
     });
 
     test("throws the expected exception when the iterator ends after two U8s",
         () {
       expect(
           () =>
-              deserializeS32(<U8>[0xce, 0x80].iterator, "Example Description"),
+              deserializeS32(StreamIterator(Stream.fromIterable([0xce, 0x80])), "Example Description"),
           throwsA(predicate((e) =>
               e is StateError &&
-              e.message == "Example Description - Unexpected end of file.")));
+              e.message == "Example Description - Unexpected end of stream.")));
     });
 
     test("throws the expected exception when the iterator ends after three U8s",
         () {
       expect(
-          () => deserializeS32(
-              <U8>[0xce, 0x80, 0xd9].iterator, "Example Description"),
+          deserializeS32(
+          StreamIterator(Stream.fromIterable([0xce, 0x80, 0xd9])), "Example Description"),
           throwsA(predicate((e) =>
               e is StateError &&
-              e.message == "Example Description - Unexpected end of file.")));
+              e.message == "Example Description - Unexpected end of stream.")));
     });
 
     test("throws the expected exception when the iterator includes invalid U8s",
         () {
       expect(
-          () => deserializeS32(
-              <U8>[0xce, 0x80, 300, 0xd9].iterator, "Example Description"),
+          deserializeS32(
+          StreamIterator(Stream.fromIterable([0xce, 0x80, 300, 0xd9])), "Example Description"),
           throwsA(predicate((e) =>
               e is RangeError &&
               e.message ==
                   "Example Description - Value is out of range for a U8 (greater than 255).")));
     });
 
-    test("returns the expected S32 when the iterable ends", () {
+    test("returns the expected S32 when the iterable ends", () async {
       expect(
-          deserializeS32(
-              [0xce, 0x80, 0xd9, 0xe8].iterator, "Example Description"),
+          await deserializeS32(
+          StreamIterator(Stream.fromIterable([0xce, 0x80, 0xd9, 0xe8])), "Example Description"),
           equals(-388398898));
     });
 
     group("when the iterable does not end", () {
-      Iterator<U8> iterator = <U8>[].iterator;
+      final iterator = StreamIterator(Stream.fromIterable([0xce, 0x80, 0xd9, 0xe8, 0x48, 0x07, 0xe5, 0x6e]));
       S32 output = 0;
 
-      setUpAll(() {
-        iterator = [0xce, 0x80, 0xd9, 0xe8, 0x48, 0x07, 0xe5, 0x6e].iterator;
-        output = deserializeS32(iterator, "Example Description");
+      setUpAll(() async {
+        output = await deserializeS32(iterator, "Example Description");
       });
 
       test("returns the expected S32", () {
         expect(output, equals(-388398898));
       });
 
-      test("leaves the remaining U8s un-iterated", () {
-        final remaining = <U8>[];
+      test("leaves the remaining U8s un-iterated", () async {
+        final remaining = [];
 
-        while (iterator.moveNext()) {
+        while (await iterator.moveNext()) {
           remaining.add(iterator.current);
         }
 

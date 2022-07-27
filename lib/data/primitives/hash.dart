@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:crypto/crypto.dart';
 import 'package:maryland_game_engine/data/primitives/u32.dart';
 import 'package:maryland_game_engine/data/primitives/u8.dart';
@@ -73,15 +75,15 @@ class Hash {
   /// [iterator] not contain enough [U8]s to fully describe one, or a
   /// [RangeError] including the given [description] should the iterator contain
   /// invalid [U8]s.
-  static Hash deserialize(Iterator<U8> iterator, String description) {
-    final a = deserializeU32(iterator, description);
-    final b = deserializeU32(iterator, description);
-    final c = deserializeU32(iterator, description);
-    final d = deserializeU32(iterator, description);
-    final e = deserializeU32(iterator, description);
-    final f = deserializeU32(iterator, description);
-    final g = deserializeU32(iterator, description);
-    final h = deserializeU32(iterator, description);
+  static Future<Hash> deserialize(StreamIterator<U8> iterator, String description) async {
+    final a = await deserializeU32(iterator, description);
+    final b = await deserializeU32(iterator, description);
+    final c = await deserializeU32(iterator, description);
+    final d = await deserializeU32(iterator, description);
+    final e = await deserializeU32(iterator, description);
+    final f = await deserializeU32(iterator, description);
+    final g = await deserializeU32(iterator, description);
+    final h = await deserializeU32(iterator, description);
     return _findOrCreate(a, b, c, d, e, f, g, h);
   }
 

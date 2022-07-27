@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:maryland_game_engine/data/primitives/u32.dart';
@@ -54,11 +55,11 @@ class EntityId {
   /// [iterator] not contain enough [U8]s to fully describe one, or a
   /// [RangeError] including the given [description] should the iterator contain
   /// invalid [U8]s.
-  static EntityId deserialize(Iterator<U8> iterator, String description) {
-    final a = deserializeU32(iterator, description);
-    final b = deserializeU32(iterator, description);
-    final c = deserializeU32(iterator, description);
-    final d = deserializeU32(iterator, description);
+  static Future<EntityId> deserialize(StreamIterator<U8> iterator, String description) async {
+    final a = await deserializeU32(iterator, description);
+    final b = await deserializeU32(iterator, description);
+    final c = await deserializeU32(iterator, description);
+    final d = await deserializeU32(iterator, description);
 
     for (final item in _existing) {
       final target = item.target;

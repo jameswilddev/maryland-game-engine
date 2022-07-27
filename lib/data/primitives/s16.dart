@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:maryland_game_engine/data/primitives/u8.dart';
 
 import 'scratch.dart';
@@ -39,8 +41,8 @@ Iterable<U8> serializeS16(S16 value, String description) sync* {
 /// [StateError] including the given [description] should the given [iterator]
 /// not contain enough [U8]s to completely describe one, or a [RangeError]
 /// including the given [description] should the iterator contain invalid [U8]s.
-S16 deserializeS16(Iterator<U8> iterator, String description) {
-  primitiveScratch.setUint8(1, deserializeU8(iterator, description));
-  primitiveScratch.setUint8(0, deserializeU8(iterator, description));
+Future<S16> deserializeS16(StreamIterator<U8> iterator, String description) async {
+  primitiveScratch.setUint8(1, await deserializeU8(iterator, description));
+  primitiveScratch.setUint8(0, await deserializeU8(iterator, description));
   return primitiveScratch.getInt16(0);
 }
