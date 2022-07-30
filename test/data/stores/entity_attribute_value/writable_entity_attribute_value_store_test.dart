@@ -92,5 +92,12 @@ void main() {
     expect(retrievedDoubleSet, equals(doubleSetSecondValue));
     expect(retrievedAlternativeEntityDoubleSetAttribute, equals(alternativeEntityDoubleSetAttributeValue));
     expect(retrievedDoubleSetEntityAlternativeAttribute, equals(doubleSetEntityAlternativeAttributeValue));
+    verify(backingStore.get(nullEntityId, alternativeAttributeId)).called(1);
+    verify(backingStore.get(alternativeEntityId, nullAttributeId)).called(1);
+    verify(backingStore.get(nonNullEntityId, alternativeAttributeId)).called(1);
+    verify(backingStore.get(alternativeEntityId, nonNullAttributeId)).called(1);
+    verify(backingStore.get(doubleSetEntityId, alternativeAttributeId)).called(1);
+    verify(backingStore.get(alternativeEntityId, doubleSetAttributeId)).called(1);
+    verifyNoMoreInteractions(backingStore);
   });
 }
