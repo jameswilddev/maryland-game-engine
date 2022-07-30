@@ -1,8 +1,10 @@
+import 'package:maryland_game_engine/data/stores/entity_attribute_value/entity_attribute_value_store.dart';
+
 import '../../primitives/attribute_id.dart';
 import '../../primitives/entity_id.dart';
 
 /// An entity-attribute-value store which always returns a constant value.
-class EmptyEntityAttributeValueStore<T> {
+class EmptyEntityAttributeValueStore<T> implements EntityAttributeValueStore<T> {
   /// The constant value which is always returned.
   final T value;
 
