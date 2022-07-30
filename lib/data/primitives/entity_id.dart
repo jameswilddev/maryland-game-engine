@@ -28,6 +28,9 @@ class EntityId {
     _existing.add(wrapped);
   }
 
+  /// An [EntityId] where all bits are clear.
+  static final EntityId zero = EntityId._(0, 0, 0, 0);
+
   static final Random _random = Random.secure();
 
   /// Randomly generates a new [EntityId].

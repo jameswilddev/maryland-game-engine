@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:maryland_game_engine/data/primitives/entity_id.dart';
-import 'package:maryland_game_engine/data/primitives/u8.dart';
 
 void main() {
   test("generate returns a new value each call", () {
@@ -14,6 +13,12 @@ void main() {
     expect(a.toString(), isNot(equals(b.toString())));
     expect(a.toString(), matches(r"^[0-9a-f]{32}$"));
     expect(a.toString(), equals(a.toString()));
+  });
+  
+  test("includes a zero constant", () async {
+    expect(EntityId.zero.toString(), equals("00000000000000000000000000000000"));
+    expect(EntityId.zero.serialize(), equals([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]));
+    expect(EntityId.zero, equals(await EntityId.deserialize(StreamIterator(Stream.fromIterable([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])), "Example Description")));
   });
 
   group("deserialize", () {
