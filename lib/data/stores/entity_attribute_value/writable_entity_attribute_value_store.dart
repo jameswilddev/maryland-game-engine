@@ -46,4 +46,21 @@ class WritableEntityAttributeValueStore<T> implements EntityAttributeValueStore<
       valuesByAttributes[attributeId] = value;
     }
   }
+
+  /// Applies all entity-attribute-values within this store to a given [store],
+  /// then clears this store.
+  moveTo(WritableEntityAttributeValueStore<T> store) {
+    for (final entityAttributeValue in _values.entries) {
+      final entityId = entityAttributeValue.key;
+
+      for (final attributeValue in entityAttributeValue.value.entries) {
+        final attributeId = attributeValue.key;
+        final value = attributeValue.value;
+
+        store.set(entityId, attributeId, value);
+      }
+    }
+
+    _values.clear();
+  }
 }

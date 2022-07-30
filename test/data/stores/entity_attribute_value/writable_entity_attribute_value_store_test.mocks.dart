@@ -5,6 +5,8 @@
 import 'package:maryland_game_engine/data/primitives/entity_id.dart' as _i3;
 import 'package:maryland_game_engine/data/stores/entity_attribute_value/entity_attribute_value_store.dart'
     as _i2;
+import 'package:maryland_game_engine/data/stores/entity_attribute_value/writable_entity_attribute_value_store.dart'
+    as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -16,6 +18,9 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: prefer_const_constructors
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
+
+class _FakeEntityAttributeValueStore_0<T> extends _i1.Fake
+    implements _i2.EntityAttributeValueStore<T> {}
 
 /// A class which mocks [EntityAttributeValueStore].
 ///
@@ -30,4 +35,30 @@ class EntityAttributeValueStoreMock extends _i1.Mock
   String? get(_i3.EntityId? entityId, int? attributeId) =>
       (super.noSuchMethod(Invocation.method(#get, [entityId, attributeId]))
           as String?);
+}
+
+/// A class which mocks [WritableEntityAttributeValueStore].
+///
+/// See the documentation for Mockito's code generation for more information.
+class WritableEntityAttributeValueStoreMock extends _i1.Mock
+    implements _i4.WritableEntityAttributeValueStore<String?> {
+  WritableEntityAttributeValueStoreMock() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i2.EntityAttributeValueStore<String?> get backingStore =>
+      (super.noSuchMethod(Invocation.getter(#backingStore),
+              returnValue: _FakeEntityAttributeValueStore_0<String?>())
+          as _i2.EntityAttributeValueStore<String?>);
+  @override
+  String? get(_i3.EntityId? entityId, int? attributeId) =>
+      (super.noSuchMethod(Invocation.method(#get, [entityId, attributeId]))
+          as String?);
+  @override
+  dynamic set(_i3.EntityId? entityId, int? attributeId, String? value) => super
+      .noSuchMethod(Invocation.method(#set, [entityId, attributeId, value]));
+  @override
+  dynamic moveTo(_i4.WritableEntityAttributeValueStore<String?>? store) =>
+      super.noSuchMethod(Invocation.method(#moveTo, [store]));
 }
