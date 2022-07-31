@@ -19,7 +19,7 @@ jobs:
     - run: flutter build apk
     - run: flutter build appBundle
   windows:
-    depends-on: ubuntu
+    needs: ubuntu
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v3
@@ -31,7 +31,7 @@ jobs:
     - run: flutter test
     - run: flutter build windows
   macos:
-    depends-on: ubuntu
+    needs: ubuntu
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v3
