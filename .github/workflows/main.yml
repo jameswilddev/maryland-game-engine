@@ -1,4 +1,9 @@
-on: push
+on:
+  push:
+    branches:
+      - '**'
+  release:
+    types: published
 jobs:
   ubuntu:
     runs-on: ubuntu-latest
@@ -20,6 +25,21 @@ jobs:
     - run: flutter build linux
     - run: flutter build apk
     - run: flutter build appbundle
+    - uses: jakejarvis/s3-sync-action@master
+      with:
+        args: --acl public-read --follow-symlinks
+      env:
+        AWS_S3_BUCKET: ${{ secrets.DOMAIN }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: eu-west-1
+        SOURCE_DIR: build/web
+      if: github.event_name == 'release'
+    - uses: jakejarvis/cloudflare-purge-action@master
+      env:
+        CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
+        CLOUDFLARE_ZONE: ${{ secrets.CLOUDFLARE_ZONE }}
+      if: github.event_name == 'release'
   windows:
     needs: ubuntu
     runs-on: windows-latest

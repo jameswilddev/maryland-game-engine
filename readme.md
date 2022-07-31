@@ -2,15 +2,38 @@
 
 Simple game engine.
 
-## Getting Started
+## Deployment
 
-This project is a starting point for a Flutter application.
+The [GitHub Action](./.github/workflows/main.yaml) will build the SPA, upload it to a S3 bucket (configured to allow public HTTP reads), then invalidate a Cloudflare cache (which sits in front and provides HTTPS).
 
-A few resources to get you started if this is your first Flutter project:
+### Configuring GitHub secrets
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Add the following secrets on GitHub:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+#### `DOMAIN`
+
+This is:
+
+- The name of the S3 bucket which will be uploaded to.
+- The public URL which Cloudflare will host.
+
+For example, for `https://www.google.com/`, this would be `www.google.com` - no protocol, no trailing slash.
+
+#### `AWS_ACCESS_KEY_ID`/`AWS_SECRET_ACCESS_KEY`
+
+The access key ID and secret access key of an IAM user with the following permissions against the S3 bucket and objects within:
+
+- `PutObject`
+- `PutObjectAcl`
+- `GetObject`
+- `ListBucket`
+- `DeleteObject`
+- `GetBucketLocation`
+
+#### `CLOUDFLARE_TOKEN`/`CLOUDFLARE_ZONE`
+
+A Cloudflare access token with the `Zone.Cache Purge` permission.  The Zone ID can be found on your domain's dashboard.
+
+### Triggering a deployment
+
+To trigger a deployment, create a GitHub release.  The name/version of the GitHub release will be included in the deployed HTML.
