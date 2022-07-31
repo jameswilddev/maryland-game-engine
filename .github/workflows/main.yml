@@ -19,7 +19,7 @@ jobs:
     - run: flutter build web
     - run: flutter build linux
     - run: flutter build apk
-    - run: flutter build appBundle
+    - run: flutter build appbundle
   windows:
     needs: ubuntu
     runs-on: windows-latest
