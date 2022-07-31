@@ -22,9 +22,11 @@ jobs:
     - run: flutter pub get
     - run: flutter test
     - run: flutter build web
-    - run: flutter build linux
-    - run: flutter build apk
-    - run: flutter build appbundle
+    - run: zip -r build/web.zip build/web
+    - uses: softprops/action-gh-release@v1
+      if: github.event_name == 'release'
+      with:
+        files: build/web.zip
     - uses: jakejarvis/s3-sync-action@master
       with:
         args: --acl public-read --follow-symlinks
@@ -40,6 +42,24 @@ jobs:
         CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
         CLOUDFLARE_ZONE: ${{ secrets.CLOUDFLARE_ZONE }}
       if: github.event_name == 'release'
+    - run: flutter build linux
+    - run: zip -r build/linux.zip build/linux/release/bundle
+    - uses: softprops/action-gh-release@v1
+      if: github.event_name == 'release'
+      with:
+        files: build/linux.zip
+    - run: flutter build apk
+    - run: zip -r build/apk.zip build/app/outputs/apk/release
+    - uses: softprops/action-gh-release@v1
+      if: github.event_name == 'release'
+      with:
+        files: build/apk.zip
+    - run: flutter build appbundle
+    - run: zip -r build/aab.zip build/app/outputs/bundle/release
+    - uses: softprops/action-gh-release@v1
+      if: github.event_name == 'release'
+      with:
+        files: build/aab.zip
   windows:
     needs: ubuntu
     runs-on: windows-latest
@@ -52,6 +72,12 @@ jobs:
     - run: flutter pub get
     - run: flutter test
     - run: flutter build windows
+    - run: zip -r build/windows.zip build/windows/runner/Release
+      if: github.event_name == 'release'
+    - uses: softprops/action-gh-release@v1
+      if: github.event_name == 'release'
+      with:
+        files: build/windows.zip
   macos:
     needs: ubuntu
     runs-on: macos-latest
@@ -65,4 +91,16 @@ jobs:
     - run: flutter pub get
     - run: flutter test
     - run: flutter build macos
+    - run: zip -r build/macos.app.zip build/macos/Build/Products/Release/maryland_game_engine.app
+      if: github.event_name == 'release'
+    - uses: softprops/action-gh-release@v1
+      if: github.event_name == 'release'
+      with:
+        files: build/macos.app.zip
     - run: flutter build ios --release --no-codesign
+    - run: zip -r build/ios.app.zip build/ios/Release-iphoneos/Runner.app
+      if: github.event_name == 'release'
+    - uses: softprops/action-gh-release@v1
+      if: github.event_name == 'release'
+      with:
+        files: build/ios.app.zip
