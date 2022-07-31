@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="16"
+   height="16"
+   viewBox="0 0 4.2333332 4.2333332"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (b8e25be833, 2022-02-05)"
+   sodipodi:docname="icon.svg"
+   inkscape:export-filename="C:\Users\james\maryland-game-engine\icon.png"
+   inkscape:export-xdpi="12288"
+   inkscape:export-ydpi="12288"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#505050"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:document-units="px"
+     showgrid="true"
+     units="px"
+     inkscape:zoom="49.773737"
+     inkscape:cx="8.6993668"
+     inkscape:cy="-0.1205455"
+     inkscape:window-width="2560"
+     inkscape:window-height="1334"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid824"
+       empspacing="8" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#ffd001;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       id="rect2085"
+       width="4.7624998"
+       height="4.7624998"
+       x="-0.26458332"
+       y="-0.26458332" />
+    <path
+       style="fill:#808080;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+       d="M -0.26458333,-0.26458333 H 4.4979166 L -0.26458333,4.4979166 Z"
+       id="path1675" />
+    <path
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 0.52916666,3.7041666 V 0.52916666 L 2.1166666,2.1166666 3.7041666,0.52916666 V 3.7041666 H 3.3299892 V 1.4325106 L 2.1166666,2.6458333 0.90328747,1.4325106 0.90328747,3.7041666 Z"
+       id="path859"
+       sodipodi:nodetypes="ccccccccccc" />
+  </g>
+</svg>
