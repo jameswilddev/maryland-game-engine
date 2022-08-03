@@ -5,7 +5,7 @@ import '../../primitives/entity_id.dart';
 
 /// An entity-attribute-value store which can be written to.
 class WritableEntityAttributeValueStore<T> implements EntityAttributeValueStore<T> {
-  /// The store which is read from when this store lacks a map
+  /// The store which is read from when this store lacks a mapping.
   final EntityAttributeValueStore<T> backingStore;
 
   final Map<EntityId, Map<AttributeId, T>> _values = <EntityId, Map<AttributeId, T>>{};
