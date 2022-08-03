@@ -3,7 +3,8 @@ import 'package:maryland_game_engine/data/stores/entity_attribute_value/referenc
 
 import '../../../primitives/entity_id.dart';
 
-/// An entity-attribute-value store which always returns a constant value.
+/// An entity-attribute-value store which always returns a constant value of
+/// [EntityId.zero].
 class EmptyReferenceEntityAttributeValueStore implements ReferenceEntityAttributeValueStore {
   /// Retrieves the value of the specified [entityId]/[attributeId] pair,
   /// throwing an [ArgumentError] should the [attributeId] be invalid.  Throws a
