@@ -90,14 +90,14 @@ jobs:
     - run: flutter pub get
     - run: flutter test
     - run: flutter build macos
-    - run: zip -r build/macos.app.zip build/macos/Build/Products/Release/maryland_game_engine.app
+    - run: zip -r build/macos.zip build/macos/Build/Products/Release/maryland_game_engine.app
     - uses: softprops/action-gh-release@v1
       if: github.event_name == 'release'
       with:
-        files: build/macos.app.zip
+        files: build/macos.zip
     - run: flutter build ios --release --no-codesign
-    - run: zip -r build/ios.app.zip build/ios/Release-iphoneos/Runner.app
+    - run: zip -r build/ios.zip build/ios/Release-iphoneos/Runner.app
     - uses: softprops/action-gh-release@v1
       if: github.event_name == 'release'
       with:
-        files: build/ios.app.zip
+        files: build/ios.zip
