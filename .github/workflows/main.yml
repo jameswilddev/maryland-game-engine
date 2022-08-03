@@ -42,8 +42,8 @@ jobs:
         CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
         CLOUDFLARE_ZONE: ${{ secrets.CLOUDFLARE_ZONE }}
       if: github.event_name == 'release'
-    - run: flutter build linux --release
-    - run: zip -r build/linux.zip build/linux/release/bundle
+    - run: flutter build linux
+    - run: zip -r build/linux.zip build/linux/x64/release/bundle
     - uses: softprops/action-gh-release@v1
       if: github.event_name == 'release'
       with:
