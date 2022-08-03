@@ -73,7 +73,6 @@ jobs:
     - run: flutter test
     - run: flutter build windows
     - run: zip -r build/windows.zip build/windows/runner/Release
-      if: github.event_name == 'release'
     - uses: softprops/action-gh-release@v1
       if: github.event_name == 'release'
       with:
@@ -92,14 +91,12 @@ jobs:
     - run: flutter test
     - run: flutter build macos
     - run: zip -r build/macos.app.zip build/macos/Build/Products/Release/maryland_game_engine.app
-      if: github.event_name == 'release'
     - uses: softprops/action-gh-release@v1
       if: github.event_name == 'release'
       with:
         files: build/macos.app.zip
     - run: flutter build ios --release --no-codesign
     - run: zip -r build/ios.app.zip build/ios/Release-iphoneos/Runner.app
-      if: github.event_name == 'release'
     - uses: softprops/action-gh-release@v1
       if: github.event_name == 'release'
       with:
