@@ -72,7 +72,7 @@ jobs:
     - run: flutter pub get
     - run: flutter test
     - run: flutter build windows
-    - run: zip -r build/windows.zip build/windows/runner/Release
+    - run: powershell Compress-Archive build/windows/runner/Release build/windows.zip
     - uses: softprops/action-gh-release@v1
       if: github.event_name == 'release'
       with:
