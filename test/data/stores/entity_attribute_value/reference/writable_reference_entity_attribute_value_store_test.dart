@@ -143,9 +143,14 @@ void main() {
       final backingStore = MockReferenceEntityAttributeValueStore();
       final writableReferenceEntityAttributeValueStore = WritableReferenceEntityAttributeValueStore(backingStore);
       final target = MockWritableReferenceEntityAttributeValueStore();
-
-      writableReferenceEntityAttributeValueStore.moveTo(target);
-
+      when(target.set(entityAId, attributeAId, entityBId)).thenReturn(null);
+      when(target.set(entityAId, attributeBId, entityDId)).thenReturn(null);
+      when(target.set(entityEId, attributeAId, entityBId)).thenReturn(null);
+      when(target.set(entityIId, attributeBId, entityDId)).thenReturn(null);
+      when(target.set(entityKId, attributeBId, entityLId)).thenReturn(null);
+      when(target.set(entityOId, attributeBId, entityPId)).thenReturn(null);
+      when(target.set(entityQId, attributeBId, entityRId)).thenReturn(null);
+      when(target.set(entitySId, attributeBId, entityUId)).thenReturn(null);
       writableReferenceEntityAttributeValueStore.set(entityAId, attributeBId, entityCId);
       writableReferenceEntityAttributeValueStore.set(entityAId, attributeAId, entityBId);
       writableReferenceEntityAttributeValueStore.set(entityAId, attributeBId, entityDId);
@@ -157,18 +162,18 @@ void main() {
       writableReferenceEntityAttributeValueStore.set(entityQId, attributeBId, entityRId);
       writableReferenceEntityAttributeValueStore.set(entitySId, attributeBId, entityTId);
       writableReferenceEntityAttributeValueStore.set(entitySId, attributeBId, entityUId);
+
+      writableReferenceEntityAttributeValueStore.moveTo(target);
+
       verifyZeroInteractions(backingStore);
-      verify(writableReferenceEntityAttributeValueStore.set(entityAId, attributeBId, entityCId)).called(1);
-      verify(writableReferenceEntityAttributeValueStore.set(entityAId, attributeAId, entityBId)).called(1);
-      verify(writableReferenceEntityAttributeValueStore.set(entityAId, attributeBId, entityDId)).called(1);
-      verify(writableReferenceEntityAttributeValueStore.set(entityEId, attributeAId, entityBId)).called(1);
-      verify(writableReferenceEntityAttributeValueStore.set(entityIId, attributeBId, entityDId)).called(1);
-      verify(writableReferenceEntityAttributeValueStore.set(entityKId, attributeBId, entityLId)).called(1);
-      verify(writableReferenceEntityAttributeValueStore.set(entityOId, attributeBId, entityPId)).called(1);
-      verify(writableReferenceEntityAttributeValueStore.set(entityQId, attributeBId, entityDId)).called(1);
-      verify(writableReferenceEntityAttributeValueStore.set(entityQId, attributeBId, entityRId)).called(1);
-      verify(writableReferenceEntityAttributeValueStore.set(entitySId, attributeBId, entityTId)).called(1);
-      verify(writableReferenceEntityAttributeValueStore.set(entitySId, attributeBId, entityUId)).called(1);
+      verify(target.set(entityAId, attributeAId, entityBId)).called(1);
+      verify(target.set(entityAId, attributeBId, entityDId)).called(1);
+      verify(target.set(entityEId, attributeAId, entityBId)).called(1);
+      verify(target.set(entityIId, attributeBId, entityDId)).called(1);
+      verify(target.set(entityKId, attributeBId, entityLId)).called(1);
+      verify(target.set(entityOId, attributeBId, entityPId)).called(1);
+      verify(target.set(entityQId, attributeBId, entityRId)).called(1);
+      verify(target.set(entitySId, attributeBId, entityUId)).called(1);
       verifyNoMoreInteractions(target);
     });
 
@@ -211,9 +216,14 @@ void main() {
       when(backingStore.listReferencingEntities(attributeBId, entityTId)).thenReturn([]);
       final writableReferenceEntityAttributeValueStore = WritableReferenceEntityAttributeValueStore(backingStore);
       final target = MockWritableReferenceEntityAttributeValueStore();
-
-      writableReferenceEntityAttributeValueStore.moveTo(target);
-
+      when(target.set(entityAId, attributeAId, entityBId)).thenReturn(null);
+      when(target.set(entityAId, attributeBId, entityDId)).thenReturn(null);
+      when(target.set(entityEId, attributeAId, entityBId)).thenReturn(null);
+      when(target.set(entityIId, attributeBId, entityDId)).thenReturn(null);
+      when(target.set(entityKId, attributeBId, entityLId)).thenReturn(null);
+      when(target.set(entityOId, attributeBId, entityPId)).thenReturn(null);
+      when(target.set(entityQId, attributeBId, entityRId)).thenReturn(null);
+      when(target.set(entitySId, attributeBId, entityUId)).thenReturn(null);
       writableReferenceEntityAttributeValueStore.set(entityAId, attributeBId, entityCId);
       writableReferenceEntityAttributeValueStore.set(entityAId, attributeAId, entityBId);
       writableReferenceEntityAttributeValueStore.set(entityAId, attributeBId, entityDId);
@@ -225,6 +235,9 @@ void main() {
       writableReferenceEntityAttributeValueStore.set(entityQId, attributeBId, entityRId);
       writableReferenceEntityAttributeValueStore.set(entitySId, attributeBId, entityTId);
       writableReferenceEntityAttributeValueStore.set(entitySId, attributeBId, entityUId);
+
+      writableReferenceEntityAttributeValueStore.moveTo(target);
+
       final valueAA = writableReferenceEntityAttributeValueStore.get(entityAId, attributeAId);
       final valueAB = writableReferenceEntityAttributeValueStore.get(entityAId, attributeBId);
       final valueEA = writableReferenceEntityAttributeValueStore.get(entityEId, attributeAId);
@@ -241,23 +254,15 @@ void main() {
       expect(referencesBD, unorderedEquals([entityAId, entityKId, entityJId, entityQId]));
       expect(referencesBM, unorderedEquals([entityNId, entityOId]));
       expect(referencesBT, isEmpty);
+      verify(backingStore.get(entityAId, attributeAId)).called(1);
+      verify(backingStore.get(entityAId, attributeBId)).called(1);
+      verify(backingStore.get(entityEId, attributeAId)).called(1);
       verify(backingStore.get(entityAId, attributeCId)).called(1);
       verify(backingStore.get(entityGId, attributeAId)).called(1);
       verify(backingStore.listReferencingEntities(attributeBId, entityDId)).called(1);
       verify(backingStore.listReferencingEntities(attributeBId, entityMId)).called(1);
       verify(backingStore.listReferencingEntities(attributeBId, entityTId)).called(1);
       verifyNoMoreInteractions(backingStore);
-      verify(writableReferenceEntityAttributeValueStore.set(entityAId, attributeBId, entityCId)).called(1);
-      verify(writableReferenceEntityAttributeValueStore.set(entityAId, attributeAId, entityBId)).called(1);
-      verify(writableReferenceEntityAttributeValueStore.set(entityAId, attributeBId, entityDId)).called(1);
-      verify(writableReferenceEntityAttributeValueStore.set(entityEId, attributeAId, entityBId)).called(1);
-      verify(writableReferenceEntityAttributeValueStore.set(entityIId, attributeBId, entityDId)).called(1);
-      verify(writableReferenceEntityAttributeValueStore.set(entityKId, attributeBId, entityLId)).called(1);
-      verify(writableReferenceEntityAttributeValueStore.set(entityOId, attributeBId, entityPId)).called(1);
-      verify(writableReferenceEntityAttributeValueStore.set(entityQId, attributeBId, entityDId)).called(1);
-      verify(writableReferenceEntityAttributeValueStore.set(entityQId, attributeBId, entityRId)).called(1);
-      verify(writableReferenceEntityAttributeValueStore.set(entitySId, attributeBId, entityTId)).called(1);
-      verify(writableReferenceEntityAttributeValueStore.set(entitySId, attributeBId, entityUId)).called(1);
     });
   });
 }

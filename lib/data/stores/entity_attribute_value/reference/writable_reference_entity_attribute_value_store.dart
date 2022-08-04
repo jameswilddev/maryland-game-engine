@@ -47,6 +47,8 @@ class WritableReferenceEntityAttributeValueStore implements ReferenceEntityAttri
   /// invalid.
   @override
   Iterable<EntityId> listReferencingEntities(AttributeId attributeId, EntityId entityId) sync* {
+    validateAttributeId(attributeId, "Attribute ID");
+
     final referencingEntityIdsByEntityIds = _inverse[attributeId];
 
     if (referencingEntityIdsByEntityIds == null) {
