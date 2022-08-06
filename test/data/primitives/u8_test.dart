@@ -125,4 +125,78 @@ void main() {
       });
     });
   });
+
+  group("deserializeU8s", () {
+    test("throws the expected exception when the quantity is negative one",
+            () {
+          expect(
+              deserializeU8s(StreamIterator(Stream.fromIterable([0xce, 0x48, 0x07])), "Example Description", -1).toList(),
+              throwsA(predicate((e) =>
+              e is RangeError &&
+                  e.message == "Example Description - Cannot deserialize a negative quantity of bytes.")));
+        });
+
+    test("throws the expected exception when the quantity is negative two",
+            () {
+          expect(
+              deserializeU8s(StreamIterator(Stream.fromIterable([0xce, 0x48, 0x07])), "Example Description", -2).toList(),
+              throwsA(predicate((e) =>
+              e is RangeError &&
+                  e.message == "Example Description - Cannot deserialize a negative quantity of bytes.")));
+        });
+
+    test("throws the expected exception when the iterator ends too early",
+            () {
+          expect(
+              deserializeU8s(StreamIterator(Stream.fromIterable([0xce, 0x48])), "Example Description", 3).toList(),
+              throwsA(predicate((e) =>
+              e is StateError &&
+                  e.message == "Example Description - Unexpected end of stream.")));
+        });
+
+    test("throws the expected exception when the iterator includes invalid U8s",
+            () {
+          expect(
+              deserializeU8s(StreamIterator(Stream.fromIterable([0xce, 300, 0x07])), "Example Description", 3).toList(),
+              throwsA(predicate((e) =>
+              e is RangeError &&
+                  e.message ==
+                      "Example Description - Value is out of range for a U8 (greater than 255).")));
+        });
+
+    test("returns the expected U8 when none are required", () async {
+      expect(
+          await deserializeU8s(StreamIterator(const Stream.empty()), "Example Description", 0).toList(),
+          isEmpty);
+    });
+
+    test("returns the expected U8 when the iterable ends", () async {
+      expect(
+          await deserializeU8s(StreamIterator(Stream.fromIterable([0xce, 0x48, 0x07])), "Example Description", 3).toList(),
+          orderedEquals([0xce, 0x48, 0x07]));
+    });
+
+    group("when the iterable does not end", () {
+      final iterator = StreamIterator(Stream.fromIterable([0xce, 0x48, 0x07, 0xe5, 0x6e]));
+      var output = <U8>[];
+
+      setUpAll(() async {
+        output = await deserializeU8s(iterator, "Example Description", 3).toList();
+      });
+
+      test("returns the expected U8s", () {
+        expect(output, orderedEquals([0xce, 0x48, 0x07]));
+      });
+
+      test("leaves the remaining U8s un-iterated", () async {
+        final remaining = [];
+
+        while (await iterator.moveNext()) {
+          remaining.add(iterator.current);
+        }
+
+        expect(remaining, orderedEquals([0xe5, 0x6e]));
+      });
+    });
+  });
 }

@@ -44,3 +44,20 @@ Future<U8> deserializeU8(StreamIterator<U8> iterator, String description) async 
   validateU8(output, description);
   return output;
 }
+
+/// Reads the specified [quantity] of [U8]s from the given [iterator], instead
+/// throwing a [StateError] including the given [description] should the given
+/// [iterator] have no further items, or a [RangeError] including the given
+/// [description] should the iterator contain invalid [U8]s or the given
+/// quantity be less than zero.
+Stream<U8> deserializeU8s(StreamIterator<U8> iterator, String description, int quantity) async* {
+  if (quantity < 0) {
+    throw RangeError("$description - Cannot deserialize a negative quantity of bytes.");
+  }
+
+  while (quantity > 0) {
+    yield await deserializeU8(iterator, description);
+
+    quantity--;
+  }
+}
