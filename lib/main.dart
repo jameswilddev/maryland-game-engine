@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,19 +11,47 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    const textStyle =  TextStyle(
+            color:Color.fromARGB(255, 0, 0, 0),
+      height: 1.5,
+
+    );
+
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Maryland Game Engine',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+        brightness: Brightness.dark,
+        colorScheme: const ColorScheme(
+          brightness: Brightness.dark,
+          primary: Color.fromARGB(255, 128, 128, 128),
+          onPrimary: Color.fromARGB(255, 0, 0, 0),
+          secondary: Color.fromARGB(255, 255, 208, 1),
+          onSecondary: Color.fromARGB(255, 0, 0, 0),
+          background: Color.fromARGB(255, 128, 128, 128),
+          onBackground: Color.fromARGB(255, 0, 0, 0),
+          surface: Color.fromARGB(255, 128, 128, 128),
+          onSurface: Color.fromARGB(255, 0, 0, 0),
+          error: Color.fromARGB(255, 255, 208, 1),
+          onError: Color.fromARGB(255, 0, 0, 0),
+        ),
+        scaffoldBackgroundColor: const Color.fromARGB(255, 128, 128, 128),
+        textTheme: GoogleFonts.josefinSansTextTheme(const TextTheme(
+            displayLarge: textStyle,
+            displayMedium: textStyle,
+            displaySmall: textStyle,
+            headlineLarge: textStyle,
+            headlineMedium: textStyle,
+            headlineSmall: textStyle,
+            titleLarge: textStyle,
+            titleMedium:textStyle,
+            titleSmall: textStyle,
+            bodyLarge: textStyle,
+            bodyMedium: textStyle,
+            bodySmall: textStyle,
+            labelLarge: textStyle,
+            labelMedium: textStyle,
+            labelSmall: textStyle,
+          ))
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
