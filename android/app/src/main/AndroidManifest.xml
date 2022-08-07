@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.sunruse.maryland_game_engine">
    <application
-        android:label="maryland_game_engine"
+        android:label="Maryland Game Engine"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
