@@ -90,7 +90,7 @@ jobs:
     - run: flutter pub get
     - run: flutter test
     - run: flutter build macos
-    - run: zip -r build/macos.zip build/macos/Build/Products/Release/maryland_game_engine.app
+    - run: zip -r build/macos.zip "build/macos/Build/Products/Release/Maryland Game Engine.app"
     - uses: softprops/action-gh-release@v1
       if: github.event_name == 'release'
       with:
