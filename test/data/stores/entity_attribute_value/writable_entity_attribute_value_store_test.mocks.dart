@@ -3,6 +3,7 @@
 // Do not manually edit this file.
 
 import 'package:maryland_game_engine/data/primitives/entity_id.dart' as _i4;
+import 'package:maryland_game_engine/data/primitives/opcode.dart' as _i6;
 import 'package:maryland_game_engine/data/stores/entity_attribute_value/entity_attribute_value_store.dart'
     as _i2;
 import 'package:maryland_game_engine/data/stores/entity_attribute_value/writable_entity_attribute_value_store.dart'
@@ -36,6 +37,10 @@ class MockCallbacks extends _i1.Mock implements _i3.Callbacks {
   void valueValidator(String? value, String? description) => super.noSuchMethod(
       Invocation.method(#valueValidator, [value, description]),
       returnValueForMissingStub: null);
+  @override
+  Iterable<int> valueSerializer(String? value, String? description) => (super
+      .noSuchMethod(Invocation.method(#valueSerializer, [value, description]),
+          returnValue: <int>[]) as Iterable<int>);
 }
 
 /// A class which mocks [EntityAttributeValueStore].
@@ -73,6 +78,14 @@ class WritableEntityAttributeValueStoreMock extends _i1.Mock
               returnValue: (String? __p0, String __p1) {})
           as void Function(String?, String));
   @override
+  Iterable<int> Function(String?, String) get valueSerializer =>
+      (super.noSuchMethod(Invocation.getter(#valueSerializer),
+              returnValue: (String? __p0, String __p1) => <int>[])
+          as Iterable<int> Function(String?, String));
+  @override
+  _i6.Opcode get opcode => (super.noSuchMethod(Invocation.getter(#opcode),
+      returnValue: _i6.Opcode.setEntityAttributeU8) as _i6.Opcode);
+  @override
   String? get(_i4.EntityId? entityId, int? attributeId) =>
       (super.noSuchMethod(Invocation.method(#get, [entityId, attributeId]))
           as String?);
@@ -82,4 +95,8 @@ class WritableEntityAttributeValueStoreMock extends _i1.Mock
   @override
   dynamic moveTo(_i5.WritableEntityAttributeValueStore<String?>? store) =>
       super.noSuchMethod(Invocation.method(#moveTo, [store]));
+  @override
+  Iterable<int> serialize() => (super
+          .noSuchMethod(Invocation.method(#serialize, []), returnValue: <int>[])
+      as Iterable<int>);
 }
