@@ -33,16 +33,20 @@ void main() {
         expect(serializeOpcode(Opcode.setEntityAttributeF32), orderedEquals([6]));
       });
 
+      test("can serialize setEntityAttributeString", () {
+        expect(serializeOpcode(Opcode.setEntityAttributeString), orderedEquals([7]));
+      });
+
       test("can serialize setEntityAttributeReference", () {
-        expect(serializeOpcode(Opcode.setEntityAttributeReference), orderedEquals([7]));
+        expect(serializeOpcode(Opcode.setEntityAttributeReference), orderedEquals([8]));
       });
 
       test("can serialize setEntityAttributeFlag", () {
-        expect(serializeOpcode(Opcode.setEntityAttributeFlag), orderedEquals([8]));
+        expect(serializeOpcode(Opcode.setEntityAttributeFlag), orderedEquals([9]));
       });
 
       test("can serialize clearEntityAttributeFlag", () {
-        expect(serializeOpcode(Opcode.clearEntityAttributeFlag), orderedEquals([9]));
+        expect(serializeOpcode(Opcode.clearEntityAttributeFlag), orderedEquals([10]));
       });
   });
 
@@ -101,30 +105,25 @@ void main() {
           await deserializeOpcode(StreamIterator(Stream.fromIterable([6])), "Example Description"), equals(Opcode.setEntityAttributeF32));
     });
 
+    test("can deserialize setEntityAttributeString", () async {
+      expect(
+          await deserializeOpcode(StreamIterator(Stream.fromIterable([7])), "Example Description"), equals(Opcode.setEntityAttributeString));
+    });
+
     test("can deserialize setEntityAttributeReference", () async {
       expect(
-          await deserializeOpcode(StreamIterator(Stream.fromIterable([7])), "Example Description"), equals(Opcode.setEntityAttributeReference));
+          await deserializeOpcode(StreamIterator(Stream.fromIterable([8])), "Example Description"), equals(Opcode.setEntityAttributeReference));
     });
 
     test("can deserialize setEntityAttributeFlag", () async {
       expect(
-          await deserializeOpcode(StreamIterator(Stream.fromIterable([8])), "Example Description"), equals(Opcode.setEntityAttributeFlag));
+          await deserializeOpcode(StreamIterator(Stream.fromIterable([9])), "Example Description"), equals(Opcode.setEntityAttributeFlag));
     });
 
     test("can deserialize clearEntityAttributeFlag", () async {
       expect(
-          await deserializeOpcode(StreamIterator(Stream.fromIterable([9])), "Example Description"), equals(Opcode.clearEntityAttributeFlag));
+          await deserializeOpcode(StreamIterator(Stream.fromIterable([10])), "Example Description"), equals(Opcode.clearEntityAttributeFlag));
     });
-
-    test("throws the expected exception when the iterator includes invalid U8s",
-            () {
-          expect(
-              deserializeOpcode(StreamIterator(Stream.fromIterable([10])), "Example Description"),
-              throwsA(predicate((e) =>
-              e is RangeError &&
-                  e.message ==
-                      "Example Description - Value is out of range for an opcode (greater than 9).")));
-        });
 
     test("throws the expected exception when the iterator includes invalid U8s",
             () {
@@ -133,7 +132,17 @@ void main() {
               throwsA(predicate((e) =>
               e is RangeError &&
                   e.message ==
-                      "Example Description - Value is out of range for an opcode (greater than 9).")));
+                      "Example Description - Value is out of range for an opcode (greater than 10).")));
+        });
+
+    test("throws the expected exception when the iterator includes invalid U8s",
+            () {
+          expect(
+              deserializeOpcode(StreamIterator(Stream.fromIterable([12])), "Example Description"),
+              throwsA(predicate((e) =>
+              e is RangeError &&
+                  e.message ==
+                      "Example Description - Value is out of range for an opcode (greater than 10).")));
         });
 
     group("when the iterable does not end", () {

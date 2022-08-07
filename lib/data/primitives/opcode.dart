@@ -31,6 +31,9 @@ enum Opcode {
   /// A [F32] entity-attribute-value is to be set.
   setEntityAttributeF32,
 
+  /// A [String] entity-attribute-value is to be set.
+  setEntityAttributeString,
+
   /// An entity reference entity-attribute-value is to be set.
   setEntityAttributeReference,
 
