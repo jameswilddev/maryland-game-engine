@@ -11,8 +11,12 @@ typedef F32 = double;
 void validateF32(F32 value, String description) {
 }
 
-/// Converts a given [F32] [value] to a series of [U8]s describing it.
-Iterable<U8> serializeF32(F32 value) sync* {
+/// Converts a given [F32] [value] to a series of [U8]s describing it, instead
+/// throwing a [RangeError] including the given [description] should the given
+/// [value] not be a valid [F16].
+Iterable<U8> serializeF32(F32 value, String description) sync* {
+  validateF32(value, description);
+
   primitiveScratch.setFloat32(0, value);
   yield primitiveScratch.getUint8(3);
   yield primitiveScratch.getUint8(2);

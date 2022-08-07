@@ -31,7 +31,7 @@ void main() {
   });
 
   test("serializeF32 returns the expected sequence of U8s", () {
-    expect(serializeF32(-8.217036431108157E24), orderedEquals([0xce, 0x80, 0xd9, 0xe8]));
+    expect(serializeF32(-8.217036431108157E24, "Example Description"), orderedEquals([0xce, 0x80, 0xd9, 0xe8]));
   });
 
   group("deserializeF32", () {
