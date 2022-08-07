@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.sunruse" "\0"
-            VALUE "FileDescription", "maryland_game_engine" "\0"
+            VALUE "FileDescription", "Maryland Game Engine" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "maryland_game_engine" "\0"
+            VALUE "InternalName", "Maryland Game Engine" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2022 com.sunruse. All rights reserved." "\0"
-            VALUE "OriginalFilename", "maryland_game_engine.exe" "\0"
-            VALUE "ProductName", "maryland_game_engine" "\0"
+            VALUE "OriginalFilename", "MarylandGameEngine.exe" "\0"
+            VALUE "ProductName", "Maryland Game Engine" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
