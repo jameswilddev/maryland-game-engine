@@ -11,4 +11,4 @@ PRODUCT_NAME = Maryland Game Engine
 PRODUCT_BUNDLE_IDENTIFIER = com.sunruse.marylandGameEngine
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2022 com.sunruse. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2022 SUNRUSE. All rights reserved.
