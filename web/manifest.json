@@ -4,7 +4,7 @@
   "start_url": ".",
   "display": "standalone",
   "background_color": "#808080",
-  "theme_color": "#ffd001",
+  "theme_color": "#808080",
   "description": "Simple game engine.",
   "orientation": "portrait-primary",
   "prefer_related_applications": false,

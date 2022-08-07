@@ -104,7 +104,7 @@ flutter_icons:
   image_path: icon.png
   web:
     background_color: "#808080"
-    theme_color: "#ffd001"
+    theme_color: "#808080"
     generate: true
   windows:
     generate: true
