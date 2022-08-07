@@ -18,6 +18,7 @@ class WritableEntityAttributeValueStore<T> implements EntityAttributeValueStore<
   /// Retrieves the value of the specified [entityId]/[attributeId] pair.  May
   /// fall back to the [backingStore] if this store lacks such a mapping.
   /// Throws a [RangeError] when the given [attributeId] is invalid.
+  @override
   T get(EntityId entityId, AttributeId attributeId) {
     validateAttributeId(attributeId, "Attribute ID");
 
