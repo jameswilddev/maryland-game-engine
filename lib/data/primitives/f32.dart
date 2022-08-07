@@ -6,6 +6,11 @@ import 'package:maryland_game_engine/data/primitives/u8.dart';
 /// A 32-bit IEEE float.
 typedef F32 = double;
 
+/// Validates that a given [value] is valid as a 32-bit IEEE float, otherwise
+/// throwing a [RangeError] including the given [description].
+void validateF32(F32 value, String description) {
+}
+
 /// Converts a given [F32] [value] to a series of [U8]s describing it.
 Iterable<U8> serializeF32(F32 value) sync* {
   primitiveScratch.setFloat32(0, value);

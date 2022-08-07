@@ -2,9 +2,34 @@ import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:maryland_game_engine/data/primitives/f32.dart';
-import 'package:maryland_game_engine/data/primitives/u8.dart';
 
 void main() {
+  group("validateF32", () {
+    test("does nothing for zero", () {
+      expect(() => validateF32(0, "Example Description"), returnsNormally);
+    });
+
+    test("does nothing for negative values", () {
+      expect(() => validateF32(-8.217036431108157E24, "Example Description"), returnsNormally);
+    });
+
+    test("does nothing for positive values", () {
+      expect(() => validateF32(8.217036431108157E24, "Example Description"), returnsNormally);
+    });
+
+    test("does nothing for positive infinity", () {
+      expect(() => validateF32(double.infinity, "Example Description"), returnsNormally);
+    });
+
+    test("does nothing for negative infinity", () {
+      expect(() => validateF32(double.negativeInfinity, "Example Description"), returnsNormally);
+    });
+
+    test("does nothing for NaN", () {
+      expect(() => validateF32(double.nan, "Example Description"), returnsNormally);
+    });
+  });
+
   test("serializeF32 returns the expected sequence of U8s", () {
     expect(serializeF32(-8.217036431108157E24), orderedEquals([0xce, 0x80, 0xd9, 0xe8]));
   });
