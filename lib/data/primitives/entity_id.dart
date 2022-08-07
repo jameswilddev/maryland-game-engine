@@ -6,7 +6,7 @@ import 'package:maryland_game_engine/data/primitives/u8.dart';
 
 /// A randomly-generated unique identifier for an entity, 128 bits in size,
 /// analogous to a UUID or GUID.
-class EntityId {
+class EntityId implements Comparable<EntityId> {
   final U32 _a;
   final U32 _b;
   final U32 _c;
@@ -83,4 +83,27 @@ class EntityId {
 
   @override
   String toString() => serialize().map((u8) => u8.toRadixString(16).padLeft(2, "0")).join();
+
+  @override
+  int compareTo(EntityId other) {
+    final a = _a.compareTo(other._a);
+
+    if (a != 0) {
+      return a;
+    }
+
+    final b = _b.compareTo(other._b);
+
+    if (b != 0) {
+      return b;
+    }
+
+    final c = _c.compareTo(other._c);
+
+    if (c != 0) {
+      return c;
+    }
+
+    return _d.compareTo(other._d);
+  }
 }
