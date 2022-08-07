@@ -8,12 +8,15 @@ class WritableEntityAttributeValueStore<T> implements EntityAttributeValueStore<
   /// The store which is read from when this store lacks a mapping.
   final EntityAttributeValueStore<T> backingStore;
 
+  /// Called to validate any value before allowing it to be stored.
+  final void Function(T, String) valueValidator;
+
   final Map<EntityId, Map<AttributeId, T>> _values = <EntityId, Map<AttributeId, T>>{};
 
   /// Creates a new entity-attribute-value store which can be written to, with a
   /// given [backingStore] to be used when no match can be found during a
-  /// lookup.
-  WritableEntityAttributeValueStore(this.backingStore);
+  /// lookup, and a [valueValidator] to use to validate values.
+  WritableEntityAttributeValueStore(this.backingStore, this.valueValidator);
 
   /// Retrieves the value of the specified [entityId]/[attributeId] pair.  May
   /// fall back to the [backingStore] if this store lacks such a mapping.
@@ -38,6 +41,8 @@ class WritableEntityAttributeValueStore<T> implements EntityAttributeValueStore<
   /// Sets of overwrites the [value] of the specified
   set(EntityId entityId, AttributeId attributeId, T value) {
     validateAttributeId(attributeId, "Attribute ID");
+
+    valueValidator(value, "Value");
 
     final valuesByAttributes = _values[entityId];
 

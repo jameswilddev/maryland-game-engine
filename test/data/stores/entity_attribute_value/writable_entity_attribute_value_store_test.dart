@@ -5,45 +5,54 @@ import 'package:maryland_game_engine/data/stores/entity_attribute_value/writable
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-@GenerateMocks([], customMocks: [
+@GenerateMocks([Callbacks], customMocks: [
   MockSpec<EntityAttributeValueStore<String?>>(as: #EntityAttributeValueStoreMock),
   MockSpec<WritableEntityAttributeValueStore<String?>>(as: #WritableEntityAttributeValueStoreMock),
 ])
 import 'writable_entity_attribute_value_store_test.mocks.dart';
 
+abstract class Callbacks {
+  void valueValidator(String? value, String description);
+}
+
 void main() {
-  test("exposes the backing store", () {
+  test("exposes the backing store and value validator", () {
+    final callbacks = MockCallbacks();
     final backingStore = EntityAttributeValueStoreMock();
 
-    final store = WritableEntityAttributeValueStore(backingStore);
+    final store = WritableEntityAttributeValueStore(backingStore, callbacks.valueValidator);
 
     expect(store.backingStore, equals(backingStore));
+    expect(store.valueValidator, equals(callbacks.valueValidator));
+    verifyZeroInteractions(callbacks);
     verifyZeroInteractions(backingStore);
   });
 
-
   test("get throws an error when an invalid attribute is given", () {
+    final callbacks = MockCallbacks();
     final backingStore = EntityAttributeValueStoreMock();
-    final store = WritableEntityAttributeValueStore(backingStore);
+    final store = WritableEntityAttributeValueStore(backingStore, callbacks.valueValidator);
 
     expect(
             () => store.get(EntityId.generate(), -1),
         throwsA((e) => e is RangeError && e.message == "Attribute ID - Value is out of range for an attribute ID (less than 0).")
     );
+    verifyZeroInteractions(callbacks);
     verifyZeroInteractions(backingStore);
   });
 
   test("set throws an error when an invalid attribute is given", () {
+    final callbacks = MockCallbacks();
     final backingStore = EntityAttributeValueStoreMock();
-    final store = WritableEntityAttributeValueStore(backingStore);
+    final store = WritableEntityAttributeValueStore(backingStore, callbacks.valueValidator);
 
     expect(
             () => store.set(EntityId.generate(), -1, "Test Value"),
         throwsA((e) => e is RangeError && e.message == "Attribute ID - Value is out of range for an attribute ID (less than 0).")
     );
+    verifyZeroInteractions(callbacks);
     verifyZeroInteractions(backingStore);
   });
-
 
   test("allows retrieval of set values", () {
     final nonNullEntityId = EntityId.generate();
@@ -63,8 +72,9 @@ void main() {
     const alternativeEntityNonNullAttributeValue = "Test Alternative Entity Non Null Attribute Value";
     const doubleSetEntityAlternativeAttributeValue = "Test Double-Set Entity Alternative Attribute Value";
     const alternativeEntityDoubleSetAttributeValue = "Test Alternative Entity Double-Set Attribute Value";
+    final callbacks = MockCallbacks();
     final backingStore = EntityAttributeValueStoreMock();
-    final store = WritableEntityAttributeValueStore(backingStore);
+    final store = WritableEntityAttributeValueStore(backingStore, callbacks.valueValidator);
     when(backingStore.get(nullEntityId, alternativeAttributeId)).thenReturn(nullEntityAlternativeAttributeValue);
     when(backingStore.get(alternativeEntityId, nullAttributeId)).thenReturn(alternativeEntityNullAttributeValue);
     when(backingStore.get(nonNullEntityId, alternativeAttributeId)).thenReturn(nonNullEntityAlternativeAttributeValue);
@@ -95,6 +105,11 @@ void main() {
     expect(retrievedDoubleSet, equals(doubleSetSecondValue));
     expect(retrievedAlternativeEntityDoubleSetAttribute, equals(alternativeEntityDoubleSetAttributeValue));
     expect(retrievedDoubleSetEntityAlternativeAttribute, equals(doubleSetEntityAlternativeAttributeValue));
+    verify(callbacks.valueValidator(doubleSetFirstValue, "Value")).called(1);
+    verify(callbacks.valueValidator(nonNullValue, "Value")).called(1);
+    verify(callbacks.valueValidator(doubleSetSecondValue, "Value")).called(1);
+    verify(callbacks.valueValidator(null, "Value")).called(1);
+    verifyNoMoreInteractions(callbacks);
     verify(backingStore.get(nullEntityId, alternativeAttributeId)).called(1);
     verify(backingStore.get(alternativeEntityId, nullAttributeId)).called(1);
     verify(backingStore.get(nonNullEntityId, alternativeAttributeId)).called(1);
@@ -115,8 +130,9 @@ void main() {
       const doubleSetAttributeId = 2242;
       const doubleSetFirstValue = "Test First Double-Set Value";
       const doubleSetSecondValue = "Test Second Double-Set Value";
+      final callbacks = MockCallbacks();
       final backingStore = EntityAttributeValueStoreMock();
-      final store = WritableEntityAttributeValueStore(backingStore);
+      final store = WritableEntityAttributeValueStore(backingStore, callbacks.valueValidator);
       store.set(doubleSetEntityId, doubleSetAttributeId, doubleSetFirstValue);
       store.set(nonNullEntityId, nonNullAttributeId, nonNullValue);
       store.set(doubleSetEntityId, doubleSetAttributeId, doubleSetSecondValue);
@@ -129,6 +145,11 @@ void main() {
 
       store.moveTo(target);
 
+      verify(callbacks.valueValidator(doubleSetFirstValue, "Value")).called(1);
+      verify(callbacks.valueValidator(nonNullValue, "Value")).called(1);
+      verify(callbacks.valueValidator(doubleSetSecondValue, "Value")).called(1);
+      verify(callbacks.valueValidator(null, "Value")).called(1);
+      verifyNoMoreInteractions(callbacks);
       verifyNoMoreInteractions(backingStore);
       verify(target.set(
           doubleSetEntityId, doubleSetAttributeId, doubleSetSecondValue))
@@ -160,8 +181,9 @@ void main() {
       const alternativeEntityNonNullAttributeValue = "Test Alternative Entity Non Null Attribute Value";
       const doubleSetEntityAlternativeAttributeValue = "Test Double-Set Entity Alternative Attribute Value";
       const alternativeEntityDoubleSetAttributeValue = "Test Alternative Entity Double-Set Attribute Value";
+      final callbacks = MockCallbacks();
       final backingStore = EntityAttributeValueStoreMock();
-      final store = WritableEntityAttributeValueStore(backingStore);
+      final store = WritableEntityAttributeValueStore(backingStore, callbacks.valueValidator);
       when(backingStore.get(nullEntityId, nullAttributeId)).thenReturn(nullEntityNullAttributeValue);
       when(backingStore.get(nonNullEntityId, nonNullAttributeId)).thenReturn(nonNullEntityNonNullAttributeValue);
       when(backingStore.get(doubleSetEntityId, doubleSetAttributeId)).thenReturn(doubleSetEntityDoubleSetAttributeValue);
@@ -201,6 +223,11 @@ void main() {
       expect(retrievedDoubleSet, equals(doubleSetEntityDoubleSetAttributeValue));
       expect(retrievedAlternativeEntityDoubleSetAttribute, equals(alternativeEntityDoubleSetAttributeValue));
       expect(retrievedDoubleSetEntityAlternativeAttribute, equals(doubleSetEntityAlternativeAttributeValue));
+      verify(callbacks.valueValidator(doubleSetFirstValue, "Value")).called(1);
+      verify(callbacks.valueValidator(nonNullValue, "Value")).called(1);
+      verify(callbacks.valueValidator(doubleSetSecondValue, "Value")).called(1);
+      verify(callbacks.valueValidator(null, "Value")).called(1);
+      verifyNoMoreInteractions(callbacks);
       verify(backingStore.get(nonNullEntityId, nonNullAttributeId)).called(1);
       verify(backingStore.get(nullEntityId, nullAttributeId)).called(1);
       verify(backingStore.get(doubleSetEntityId, doubleSetAttributeId)).called(1);
@@ -214,3 +241,4 @@ void main() {
     });
   });
 }
+

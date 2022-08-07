@@ -2,12 +2,14 @@
 // in maryland_game_engine/test/data/stores/entity_attribute_value/writable_entity_attribute_value_store_test.dart.
 // Do not manually edit this file.
 
-import 'package:maryland_game_engine/data/primitives/entity_id.dart' as _i3;
+import 'package:maryland_game_engine/data/primitives/entity_id.dart' as _i4;
 import 'package:maryland_game_engine/data/stores/entity_attribute_value/entity_attribute_value_store.dart'
     as _i2;
 import 'package:maryland_game_engine/data/stores/entity_attribute_value/writable_entity_attribute_value_store.dart'
-    as _i4;
+    as _i5;
 import 'package:mockito/mockito.dart' as _i1;
+
+import 'writable_entity_attribute_value_store_test.dart' as _i3;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -22,6 +24,20 @@ import 'package:mockito/mockito.dart' as _i1;
 class _FakeEntityAttributeValueStore_0<T> extends _i1.Fake
     implements _i2.EntityAttributeValueStore<T> {}
 
+/// A class which mocks [Callbacks].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockCallbacks extends _i1.Mock implements _i3.Callbacks {
+  MockCallbacks() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  void valueValidator(String? value, String? description) => super.noSuchMethod(
+      Invocation.method(#valueValidator, [value, description]),
+      returnValueForMissingStub: null);
+}
+
 /// A class which mocks [EntityAttributeValueStore].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -32,7 +48,7 @@ class EntityAttributeValueStoreMock extends _i1.Mock
   }
 
   @override
-  String? get(_i3.EntityId? entityId, int? attributeId) =>
+  String? get(_i4.EntityId? entityId, int? attributeId) =>
       (super.noSuchMethod(Invocation.method(#get, [entityId, attributeId]))
           as String?);
 }
@@ -41,7 +57,7 @@ class EntityAttributeValueStoreMock extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class WritableEntityAttributeValueStoreMock extends _i1.Mock
-    implements _i4.WritableEntityAttributeValueStore<String?> {
+    implements _i5.WritableEntityAttributeValueStore<String?> {
   WritableEntityAttributeValueStoreMock() {
     _i1.throwOnMissingStub(this);
   }
@@ -52,13 +68,18 @@ class WritableEntityAttributeValueStoreMock extends _i1.Mock
               returnValue: _FakeEntityAttributeValueStore_0<String?>())
           as _i2.EntityAttributeValueStore<String?>);
   @override
-  String? get(_i3.EntityId? entityId, int? attributeId) =>
+  void Function(String?, String) get valueValidator =>
+      (super.noSuchMethod(Invocation.getter(#valueValidator),
+              returnValue: (String? __p0, String __p1) {})
+          as void Function(String?, String));
+  @override
+  String? get(_i4.EntityId? entityId, int? attributeId) =>
       (super.noSuchMethod(Invocation.method(#get, [entityId, attributeId]))
           as String?);
   @override
-  dynamic set(_i3.EntityId? entityId, int? attributeId, String? value) => super
+  dynamic set(_i4.EntityId? entityId, int? attributeId, String? value) => super
       .noSuchMethod(Invocation.method(#set, [entityId, attributeId, value]));
   @override
-  dynamic moveTo(_i4.WritableEntityAttributeValueStore<String?>? store) =>
+  dynamic moveTo(_i5.WritableEntityAttributeValueStore<String?>? store) =>
       super.noSuchMethod(Invocation.method(#moveTo, [store]));
 }
